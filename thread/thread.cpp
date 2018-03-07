@@ -1,11 +1,25 @@
 //
 // Created by star on 18-3-7.
 //
+#include <boost/thread.hpp>
 #include <iostream>
-using namespace std;
 
-int
-main(int argc,char* argv){
+void wait(int seconds)
+{
+    boost::this_thread::sleep(boost::posix_time::seconds(seconds));
+}
 
-    cout<< "thread"<<endl;
+void thread()
+{
+    for (int i = 0; i < 5; ++i)
+    {
+        wait(1);
+        std::cout << i << std::endl;
+    }
+}
+
+int main()
+{
+    boost::thread t(thread);
+    t.join();
 }
