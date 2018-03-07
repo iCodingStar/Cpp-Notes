@@ -3,4 +3,6 @@ project(Cpp_Notes)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Cpp_Notes main.cpp)
+include_directories(.)
+add_subdirectory(thread)
+add_executable(main main.cpp)
