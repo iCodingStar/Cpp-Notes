@@ -2,7 +2,7 @@
 // Created by star on 18-3-7.
 //
 #include <boost/thread.hpp>
-#include <iostream>
+#include <boost/date_time/gregorian/gregorian.hpp>
 
 void wait(int seconds)
 {
@@ -14,7 +14,8 @@ void thread()
     for (int i = 0; i < 5; ++i)
     {
         wait(1);
-        std::cout << i << std::endl;
+        std::cout << i << " ";
+        std::cout << "current time : "<< boost::gregorian::day_clock::local_day()<<std::endl;
     }
 }
 

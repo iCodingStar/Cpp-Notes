@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O2 -Wall")
 # 设置boost库的根路径
 set(BOOST_ROOT "/usr/local/include/boost")
 # 查找boost的功能模块
-find_package(Boost 1.66.0 COMPONENTS log thread system regex REQUIRED)
+find_package(Boost 1.66.0 COMPONENTS log thread system regex date_time REQUIRED)
 
 include_directories(.)
 add_subdirectory(thread)
