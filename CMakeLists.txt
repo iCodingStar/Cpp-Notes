@@ -15,3 +15,7 @@ find_package(Boost 1.66.0 COMPONENTS log thread system regex date_time REQUIRED)
 include_directories(.)
 add_subdirectory(thread)
 add_executable(main main.cpp)
+
+# cmake tutorials
+add_subdirectory(cmake/tutorials-1)
+add_subdirectory(cmake/tutorials-2)

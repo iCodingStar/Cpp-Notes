@@ -21,6 +21,7 @@ void thread()
 
 int main()
 {
+    time_t time1;
     boost::thread t(thread);
     t.join();
 }
