@@ -1,12 +1,4 @@
-//
-// Created by star on 18-3-13.
-//
-
-//
-// Created by star on 18-3-13.
-//
 #include <unp.h>
-
 #include <error.c>
 
 int
