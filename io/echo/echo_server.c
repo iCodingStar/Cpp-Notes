@@ -44,8 +44,8 @@ main(int argc, char *argv[]) {
         connectFd = accept(listenFd, (SA *) NULL, NULL);
         printf("successful connected ...\n");
 
-        if ((childPid = fork()) == 0) {
-            close(listenFd); // 关闭listening socket
+        if ((childPid = fork()) == 0) { ///
+            close(listenFd); // 将listenFd减1
             echo(connectFd); // process the request
             _exit(0);
         }
