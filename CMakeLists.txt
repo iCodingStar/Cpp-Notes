@@ -19,3 +19,4 @@ add_executable(main main.cpp)
 # cmake tutorials
 add_subdirectory(cmake/tutorials-1)
 add_subdirectory(cmake/tutorials-2)
+add_subdirectory(AliTest)

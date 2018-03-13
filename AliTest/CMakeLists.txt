@@ -1,0 +1,1 @@
+add_executable(AliTest main.cpp)
