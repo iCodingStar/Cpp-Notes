@@ -16,21 +16,24 @@
 typedef struct sockaddr SA;
 
 void
-str_cli(FILE *fp, int sockfd) {
-    int maxfdp1;
-    fd_set rset;
+str_cli(FILE *fp, int socketFd) {
+    int maxFd;
+    fd_set readSet;
     char sendline[MAXLINE], recvline[MAXLINE];
 
     for (;;) {
-        FD_ZERO(&rset);
-        FD_SET(fileno(fp), &rset);
-        FD_SET(sockfd, &rset);
-        maxfdp1 = max(fileno(fp), sockfd) + 1;
-        select(maxfdp1, &rset, NULL, NULL, NULL);
-
-        if (FD_ISSET(sockfd, &rset)) {    /* socket is readable */
+        FD_ZERO(&readSet);
+        // 添加对fp文件的监听
+        FD_SET(fileno(fp), &readSet);
+        // 添加对socket时间的监听
+        FD_SET(socketFd, &readSet);
+        // 计算最大的文件描述符
+        maxFd = max(fileno(fp), socketFd) + 1;
+        select(maxFd, &readSet, NULL, NULL, NULL);
+        //处理当前的socket读事件
+        if (FD_ISSET(socketFd, &readSet)) {    /* socket is readable */
             int readNum;
-            if ((readNum = read(sockfd, recvline, MAXLINE)) == 0) {
+            if ((readNum = read(socketFd, recvline, MAXLINE)) == 0) {
                 perror("str_cli: server terminated prematurely");
                 exit(1);
             } else if (readNum < 0) {
@@ -44,32 +47,33 @@ str_cli(FILE *fp, int sockfd) {
 
         }
 
-        if (FD_ISSET(fileno(fp), &rset)) {  /* input is readable */
+        // 处理文件流的读取事件
+        if (FD_ISSET(fileno(fp), &readSet)) {  /* input is readable */
             if (fgets(sendline, MAXLINE, fp) == NULL)
                 return;        /* all done */
-            write(sockfd, sendline, strlen(sendline));
+            write(socketFd, sendline, strlen(sendline));
         }
     }
 }
 
 int
 main(int argc, char **argv) {
-    int sockfd;
-    struct sockaddr_in servaddr;
+    int socketFd;
+    struct sockaddr_in serverAddress;
 
     if (argc != 2) {
         perror("usage: tcpcli <IPaddress>");
         exit(1);
     }
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    socketFd = socket(AF_INET, SOCK_STREAM, 0);
 
-    bzero(&servaddr, sizeof(servaddr));
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(SERV_PORT);
-    inet_pton(AF_INET, argv[1], &servaddr.sin_addr);
+    bzero(&serverAddress, sizeof(serverAddress));
+    serverAddress.sin_family = AF_INET;
+    serverAddress.sin_port = htons(SERV_PORT);
+    inet_pton(AF_INET, argv[1], &serverAddress.sin_addr);
 
-    connect(sockfd, (SA *) &servaddr, sizeof(servaddr));
-    str_cli(stdin, sockfd);        /* do it all */
+    connect(socketFd, (SA *) &serverAddress, sizeof(serverAddress));
+    str_cli(stdin, socketFd);        /* do it all */
 
     exit(0);
 }
