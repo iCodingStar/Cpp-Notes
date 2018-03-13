@@ -1,0 +1,1 @@
+add_executable(select_serever server.c)

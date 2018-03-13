@@ -1,1 +1,1 @@
-add_executable(AliTest main.cpp)
+# add_executable(AliTest main.cpp)
