@@ -22,7 +22,7 @@ str_cli(FILE *fp, int socketFd) {
     char sendline[MAXLINE], recvline[MAXLINE];
 
     for (;;) {
-        FD_ZERO(&readSet);
+        // FD_ZERO(&readSet);
         // 添加对fp文件的监听
         FD_SET(fileno(fp), &readSet);
         // 添加对socket时间的监听
