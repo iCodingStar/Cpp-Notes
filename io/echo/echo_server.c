@@ -41,7 +41,9 @@ main(int argc, char *argv[]) {
 
     for (;;) {
         childLength = sizeof(clientAddress);
+        // server 端接收到连接请求
         connectFd = accept(listenFd, (SA *) NULL, NULL);
+
         printf("successful connected ...\n");
 
         if ((childPid = fork()) == 0) { ///

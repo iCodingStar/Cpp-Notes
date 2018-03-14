@@ -26,11 +26,16 @@ main(int argc, char *argv[]) {
     serverAddress.sin_port = htons(9999);
 
     inet_pton(AF_INET, argv[1], &serverAddress.sin_addr);
+
+    /**
+     * client 端socket发送连接请求
+     */
     if (connect(socketFd, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
         perror("Connect Error !");
         exit(1);
     } else {
         printf("Connected Successfully !\n");
+        // 处理连接过程
         echo(stdin, socketFd);
         exit(0);
     }
